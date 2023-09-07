@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const p = path.join(
-  path.dirname(process.mainModule.filename),
+  path.dirname(require.main.filename),
   'data',
   'products.json'
 );
@@ -12,6 +12,7 @@ const getProductsFromFile = cb => {
     if (err) {
       cb([]);
     } else {
+     
       cb(JSON.parse(fileContent));
     }
   });
@@ -39,8 +40,8 @@ module.exports = class Product {
     getProductsFromFile(cb);
   }
   static findById(id,cb){
-    getProductsFromFile(products =>{
-      const product = products.find(p =>p.id===id );
+    getProductsFromFile((products) =>{
+      const product = products.find((p) =>p.id.trim() === id.trim());
       cb(product);
     })
   }
